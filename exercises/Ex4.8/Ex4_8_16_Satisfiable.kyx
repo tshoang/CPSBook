@@ -1,0 +1,60 @@
+Theorem "CPSBook/Ex04.08/16 (Satisfiable)"
+Description "Ex4.8 (16): (x >= 0) -> [{x'=v,v'=a}] x >= 0 is satisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x, v, a;
+End.
+
+
+/*
+ * No need for equivalence for satifiability, as it is quite cumbersome to find
+ * the exact condition (this would be a nice exercise)
+ */
+Problem
+  (((v >= 0 & a >= 0) | x < 0) /* Satisfiable when (v and a also non-negative) or x is negative initially */
+  ->
+  (x >= 0) 
+  -> [{x'=v,v'=a}] x >= 0)
+  &
+  ((x >= 0 & a < 0)     /* Unsatifiable when x is non-negative and a is negative initially */
+  ->
+  !((x >= 0) 
+  -> [{x'=v,v'=a}] x >= 0))
+
+End.
+
+Tactic "CPSBook/Ex04.08/16 (Satisfiable): Interactive"
+andR('R=="(v>=0&a>=0|x < 0->x>=0->[{x'=v,v'=a}]x>=0)&(x>=0&a < 0->!(x>=0->[{x'=v,v'=a}]x>=0))"); <(
+  "v>=0&a>=0|x < 0->x>=0->[{x'=v,v'=a}]x>=0":
+    implyR('R=="v>=0&a>=0|x < 0->x>=0->[{x'=v,v'=a}]x>=0");
+    implyR('R=="x>=0->[{x'=v,v'=a}]x>=0");
+    ODE('R=="[{x'=v,v'=a}]x>=0"),
+  "x>=0&a < 0->!(x>=0->[{x'=v,v'=a}]x>=0)":
+    implyR('R=="x>=0&a < 0->!(x>=0->[{x'=v,v'=a}]x>=0)");
+    notImply('R=="!(x>=0->[{x'=v,v'=a}]x>=0)");
+    andR('R=="x>=0&![{x'=v,v'=a}]x>=0"); <(
+      "x>=0":
+        andL('L=="x>=0&a < 0");
+        id,
+      "![{x'=v,v'=a}]x>=0":
+        notBox('R=="![{x'=v,v'=a}]x>=0");
+        solve('R=="<{x'=v,v'=a}>(!x>=0)");
+        andL('L=="x>=0&a < 0");
+        QE
+    )
+)
+End.
+
+/*
+ * This "auto" takes a slightly longer time.
+ */
+Tactic "CPSBook/Ex04.08/16 (Satisfiable): Automatic"
+auto
+End.
+End.
