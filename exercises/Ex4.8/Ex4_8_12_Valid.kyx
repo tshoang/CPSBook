@@ -1,0 +1,32 @@
+Theorem "CPSBook/Ex04.08/12 (Valid)"
+Description "Ex4.8 (12): [{{x'=1 & false}}*] true is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x;
+End.
+
+/*
+ * No loop invariant required here as we do not use the loop rule.
+ */
+Problem
+  [ {
+      {x'=1 & false}
+      
+  }*
+  ] true
+End.
+
+Tactic "CPSBook/Ex04.08/12 (Valid): Interactive"
+boxTrue('R=="[{{x'=1&false}}*]true")
+End.
+
+Tactic "CPSBook/Ex04.08/12 (Valid): Automatic"
+auto
+End.
+End.
