@@ -1,0 +1,22 @@
+Theorem "CPSBook/Ex04.08/06 (Valid)"
+Description "Ex4.8 (6): [?false;] true is unsatisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+Problem
+  [?false;] true
+End.
+
+Tactic "CPSBook/Ex04.08/06 (Valid): Interactive"
+boxTrue('R=="[?false;]true")
+End.
+
+Tactic "CPSBook/Ex04.08/06 (Valid): Interactive"
+auto
+End.
+
+End.

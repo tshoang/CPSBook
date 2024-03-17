@@ -1,0 +1,24 @@
+Theorem "CPSBook/Ex04.08/05 (Unsatisfiable)"
+Description "Ex4.8 (5): [?true;] false is unsatisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+Problem
+  !([?true;] false)/* Unsatisfiable hence the negation is valid */
+End.
+
+Tactic "CPSBook/Ex04.08/05 (Unsatisfiable): Interactive"
+testb('R=="!#[?true;]false#");
+trueImply('R=="!#(true->false)#");
+notR('R=="!false");
+closeFalse('L=="false")
+End.
+
+Tactic "CPSBook/Ex04.08/05 (Unsatisfiable): Automatic"
+auto
+End.
+End.

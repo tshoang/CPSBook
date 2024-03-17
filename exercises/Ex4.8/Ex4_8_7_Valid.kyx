@@ -1,0 +1,24 @@
+Theorem "CPSBook/Ex04.08/07 (Valid)"
+Description "Ex4.8 (7): [?false;] false is unsatisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+Problem
+  [?false;] false
+End.
+
+Tactic "CPSBook/Ex04.08/07 (Valid): Interactive"
+testb('R=="[?false;]false");
+implyR('R=="false->false");
+id
+End.
+
+Tactic "CPSBook/Ex04.08/07 (Valid): Automatic"
+auto
+End.
+
+End.
