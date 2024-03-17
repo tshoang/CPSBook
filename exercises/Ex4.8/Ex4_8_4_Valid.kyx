@@ -1,0 +1,22 @@
+Theorem "CPSBook/Ex04.08/04 (Valid)"
+Description "Ex4.8 (4): [?true;] true is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+Problem
+  [?true;] true
+End.
+
+Tactic "CPSBook/Ex04.08/04 (Valid): Interactive"
+boxTrue('R=="[?true;]true")
+End.
+
+Tactic "CPSBook/Ex04.08/04 (Valid): Automatic"
+auto
+End.
+
+End.

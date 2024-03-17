@@ -1,0 +1,45 @@
+Theorem "CPSBook/Ex04.08/03 (Satisfiable)"
+Description "Ex4.8 (3): [?x >= 0;] x < 0 is satisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x;
+End.
+
+Problem
+  (x < 0 <->   /* Satisfiable exactly when x < 0 initially
+                * note that this is not because x < 0
+                * is the post condition, but this is because the test became
+                * miraculus and can establish any post-condition,
+                * including x < -1 or even false
+                */
+    ([?x >= 0;] x < 0)
+  )
+End.
+
+Tactic "CPSBook/Ex04.08/03 (Satisfiable): Interactive"
+testb('R=="x < 0<->#[?x>=0;]x < 0#");
+equivR('R=="x < 0<->x>=0->x < 0"); <(
+  "x < 0&(x>=0->x < 0)":
+    implyR('R=="x>=0->x < 0");
+    id,
+  "!x < 0&!(x>=0->x < 0)":
+    implyL('L=="x>=0->x < 0"); <(
+      "x>=0":
+        QE,
+      "x < 0":
+        id
+    )
+)
+End.
+
+Tactic "CPSBook/Ex04.08/03 (Satisfiable): Automatic"
+auto
+End.
+
+End.
