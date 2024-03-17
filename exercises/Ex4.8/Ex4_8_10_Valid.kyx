@@ -1,0 +1,25 @@
+Theorem "CPSBook/Ex04.08/10 (Valid)"
+Description "Ex4.8 (10): [{x'=1 & false}] true is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x;
+End.
+
+Problem
+  [{x'=1 & false}] true
+End.
+
+Tactic "CPSBook/Ex04.08/10 (Valid): Interactive"
+boxTrue('R=="[{x'=1&false}]true")
+End.
+
+Tactic "CPSBook/Ex04.08/10 (Valid): Automatic"
+auto
+End.
+End.
