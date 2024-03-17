@@ -1,0 +1,32 @@
+Theorem "CPSBook/Ex04.08/11 (Valid)"
+Description "Ex4.8 (11): [{x'=1 & false}] false is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables /* program variables may change their value over time */
+  Real x;
+End.
+
+Problem
+  [{x'=1 & false}] false
+End.
+
+/*
+ * This example is quite counter-intuitive. The "false" evolution domain ensure 
+ * that for any future time t that the duration 0..t satisfies the "false"
+ * evaluation domain, the post condition "false" is hold. Essentially, "false"
+ * evaluation domain acts as a false assumption.
+ * The proof use ODE (with "invariant" false).
+ */
+Tactic "CPSBook/Ex04.08/11 (Valid): Interactive"
+ODE('R=="[{x'=1&false}]false")
+End.
+
+Tactic "CPSBook/Ex04.08/11 (Valid): Automatic"
+auto
+End.
+End.
