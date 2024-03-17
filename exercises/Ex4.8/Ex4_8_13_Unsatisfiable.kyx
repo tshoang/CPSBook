@@ -1,0 +1,29 @@
+Theorem "CPSBook/Ex04.08/13 (Unsatisfiable)"
+Description "Ex4.8 (13): [{{x'=1 & true}}*] false is unsatisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x;
+End.
+
+Problem
+  !([{{x'=1 & true}}* @invariant(false)] false) /* Unsatisifable hence negation is valid */
+End.
+
+Tactic "CPSBook/Ex04.08/13 (Unsatisfiable): Interactive"
+notBox('R=="![{{x'=1}}*]false");
+iterated('R=="<{{x'=1}}*>(!false)");
+orR('R=="!false|<{x'=1}><{{x'=1}}*>(!false)");
+notR('R=="!false");
+closeFalse('L=="false")
+End.
+
+/*
+ * "auto" cannot prove this hence no Automatic tactic.
+ */
+End.
