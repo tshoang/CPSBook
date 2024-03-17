@@ -1,0 +1,37 @@
+Theorem "CPSBook/Ex04.08/15 (Unsatisfiable)"
+Description "Ex4.8 (15): [{{x'=1 & false}}*] false is unsatisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x;
+End.
+
+/*
+ * This is similar to 11 (which is valid), but since repetition allows repeat
+ * 0 times, i.e., there is 1 possible after state which is the same as the
+ * initial state, hence this is not valid as "false" does not hold on that state.
+ * In fact, it is unsatisifiable as all possible after states do not satisfy the
+ * postcondition "false".
+ * We do not use invariant here (as the proof is done via unfolding loop).
+ */
+Problem
+  !([{{x'=1 & false}}*] false) /* Unsatisifable hence negation is valid */
+End.
+
+Tactic "CPSBook/Ex04.08/15 (Unsatisfiable): Interactive"
+iterateb('R=="!#[{{x'=1&false}}*]false#");
+notAnd('R=="!(false&[{x'=1&false}][{{x'=1&false}}*]false)");
+orR('R=="!false|![{x'=1&false}][{{x'=1&false}}*]false");
+notR('R=="!false");
+closeFalse('L=="false")
+End.
+
+/*
+ * "auto" cannot prove this so we do not have the Automatic tactic.
+ */
+End.
