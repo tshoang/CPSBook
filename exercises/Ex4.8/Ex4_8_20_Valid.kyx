@@ -1,0 +1,34 @@
+Theorem "CPSBook/Ex04.08/20 (Valid)"
+Description "Ex4.8 (20): (x > 0) -> [{x'=-x}] x > 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables /* program variables may change their value over time */
+  Real x;
+End.
+
+
+/*
+ * In this example, eventhough the derivative is negative, it (the absolute 
+ * value of the derivative) is "smaller-and-smaller" as x closer to 0. As a
+ * result x will never reach 0.
+ */
+Problem
+  (x > 0)
+  ->
+  [{x'=-x}] x > 0
+End.
+
+Tactic "Exercise 4.8 - 20 (Valid): Interactive"
+implyR('R=="x>0->[{x'=-x}]x>0");
+ODE('R=="[{x'=-x}]x>0")
+End.
+
+Tactic "Exercise 4.8 - 20 (Valid): Automatic"
+auto
+End.
+End.
