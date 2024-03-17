@@ -1,0 +1,28 @@
+Theorem "CPSBook/Ex04.08/01 (Valid)"
+Description "Ex4.8 (1): [?x >= 0;](x >= 0) is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x;
+End.
+
+Problem
+  [?x >= 0;] (x >= 0)
+End.
+
+Tactic "CPSBook/Ex04.08/01 (Valid): Automatic"
+auto
+End.
+
+Tactic "CPSBook/Ex04.08/01 (Valid): Interactive"
+testb('R=="[?x>=0;]x>=0");
+implyR('R=="x>=0->x>=0");
+id
+End.
+
+End.
