@@ -1,5 +1,5 @@
 Theorem "CPSBook/Ex04.08/07 (Valid)"
-Description "Ex4.8 (7): [?false;] false is unsatisfiable".
+Description "Ex4.8 (7): [?false;] false is valid".
 /*
  * Copyright (c) 2024 University of Southampton.
  * Licensed under MIT license.
