@@ -18,9 +18,8 @@ Problem
 End.
 
 Tactic "CPSBook/Ex04.08/17 (Valid): Interactive"
-  implyR('R=="x>0->[{x'=x^2}]x>0");
-  auto
-  //ODEinv('R=="[{x'=x^2}]x>0") <- THIS cause syntax error so auto is used instead.
+implyR('R=="x>0->[{x'=x}]x>0");
+ODE('R=="[{x'=x}]x>0")
 End.
 
 Tactic "CPSBook/Ex04.08/17 (Valid): Automatic"
