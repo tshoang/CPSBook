@@ -9,13 +9,19 @@ Automatic vs Interactive
 ========================
 Most of the proof can be handled by *auto* tactic. Whenever possible, we also provide an *interactive* tactic using basic dL proof rules as they also *explain* the meaning of the formulae and why they are valid/satisfiable/unsatisfiable.
 
-Checking with KeymaeraX
-=======================
+Checking with KeymaeraX command line
+====================================
 The *.kyx can be proved by command line with KeymaeraX using the following command
 ```
 java -jar /path/to/keymaerax.jar -prove file.kyx
 ```
 where `/path/to/keymaerax.jar` is the path to the KeymaeraX jar file and `file.kyx` is the name of the input file.
+
+Exploring with KeymaeraX UI
+===========================
+Launch KeymaeraX UI (default) and create a model and copy the content
+of the *.kyx file. Try to follow the steps of the interactive proof to
+see their details (or load the proof automatically).
 
 Summary
 =======
