@@ -1,4 +1,4 @@
-Theorem "CPSBook/Ex04.08/18 (Satisfiable)"
+Theorem "CPSBook/exercises/Ex04.08/18 (Satisfiable)"
 Description "Ex4.8 (18): (x > 0) -> [{x'=y}] x > 0 is satisfiable".
 /*
  * Copyright (c) 2024 University of Southampton.

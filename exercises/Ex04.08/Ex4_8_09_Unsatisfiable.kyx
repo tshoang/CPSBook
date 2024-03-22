@@ -1,4 +1,4 @@
-Theorem "CPSBook/Ex04.08/09 (Unsatisfiable)"
+Theorem "CPSBook/exercises/Ex04.08/09 (Unsatisfiable)"
 Description "Ex4.8 (9): [{x' = 1 & true}] false is unsatisfiable".
 /*
  * Copyright (c) 2024 University of Southampton.

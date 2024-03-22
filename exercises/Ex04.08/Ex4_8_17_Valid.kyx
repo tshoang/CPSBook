@@ -1,4 +1,4 @@
-Theorem "CPSBook/Ex04.08/17 (Valid)"
+Theorem "CPSBook/exercies/Ex04.08/17 (Valid)"
 Description "Ex4.8 (17): (x > 0) -> [{x'=x^2}] x > 0 is valid".
 /*
  * Copyright (c) 2024 University of Southampton.

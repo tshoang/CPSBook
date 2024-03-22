@@ -1,4 +1,4 @@
-Theorem "CPSBook/Ex04.08/01 (Valid)"
+Theorem "CPSBook/exercises/Ex04.08/01 (Valid)"
 Description "Ex4.8 (1): [?x >= 0;](x >= 0) is valid".
 /*
  * Copyright (c) 2024 University of Southampton.

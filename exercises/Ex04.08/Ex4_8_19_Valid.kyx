@@ -1,4 +1,4 @@
-Theorem "CPSBook/Ex04.08/19 (Valid)"
+Theorem "CPSBook/exercises/Ex04.08/19 (Valid)"
 Description "Ex4.8 (19): (x > 0) -> [{x'=x}] x > 0 is valid".
 /*
  * Copyright (c) 2024 University of Southampton.

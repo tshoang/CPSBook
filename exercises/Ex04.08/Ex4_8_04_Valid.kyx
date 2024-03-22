@@ -1,4 +1,4 @@
-Theorem "CPSBook/Ex04.08/04 (Valid)"
+Theorem "CPSBook/exercises/Ex04.08/04 (Valid)"
 Description "Ex4.8 (4): [?true;] true is valid".
 /*
  * Copyright (c) 2024 University of Southampton.
