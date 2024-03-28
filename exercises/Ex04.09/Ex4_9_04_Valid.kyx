@@ -1,0 +1,35 @@
+Theorem "CPSBook/Ex04.09/04 (Valid)"
+Description "Ex4.9 (4): x > 0 -> [{x := x + 1;}*] x > 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables
+  Real x;
+End.
+
+// Need the invariant to prove
+Problem
+    x > 0 -> [{x := x + 1;}* @invariant (x > 0)] x > 0
+End.
+
+Tactic "CPSBook/Ex04.09/04 (Valid): Interactive"
+implyR('R=="x>0->[{x:=x+1;}*]x>0");
+loop("x>0", 'R=="[{x:=x+1;}*]x>0"); <(
+  "Init":
+    id,
+  "Post":
+    id,
+  "Step":
+    assignb('R=="[x:=x+1;]x>0");
+    QE
+)
+End.
+
+Tactic "CPSBook/Ex04.09/04 (Valid): Automatic"
+auto
+End.
+
+End.

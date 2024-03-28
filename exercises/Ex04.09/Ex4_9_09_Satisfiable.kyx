@@ -1,0 +1,44 @@
+Theorem "CPSBook/Ex04.09/09 (Satisfiable)"
+Description "Ex4.9 (9): x = 0 -> [{x' = 1};{x'=-2}] x < 0 is satisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables
+  Real x;
+End.
+
+Problem
+    x != 0 <-> (x = 0 -> [{x' = 1};{x'=-2}] x < 0)
+End.
+
+Tactic "CPSBook/Ex04.09/09 (Satisfiable): Interactive"
+composeb('R=="x!=0<->x=0->#[{x'=1}{x'=-2}]x < 0#");
+equivR('R=="x!=0<->x=0->[{x'=1}][{x'=-2}]x < 0"); <(
+  "x!=0&(x=0->[{x'=1}][{x'=-2}]x < 0)":
+    implyR('R=="x=0->[{x'=1}][{x'=-2}]x < 0");
+    smartQE,
+  "!x!=0&!(x=0->[{x'=1}][{x'=-2}]x < 0)":
+    implyL('L=="x=0->[{x'=1}][{x'=-2}]x < 0"); <(
+      "x=0":
+        QE,
+      "[{x'=1}][{x'=-2}]x < 0":
+        cut("![{x'=1}][{x'=-2}]x < 0"); <(
+          "Use":
+            propClose,
+          "Show":
+            solve('R=="![{x'=1}]#[{x'=-2}]x < 0#");
+            solve('R=="!#[{x'=1}]\forall t_ (t_>=0->(-2)*t_+x < 0)#");
+            QE using "!\forall t_ (t_>=0->\exists kyxtime (kyxtime=t_&\forall t_ (t_>=0->(-2)*t_+(kyxtime+x) < 0)))"
+        )
+    )
+)
+End.
+
+Tactic "CPSBook/Ex04.09/09 (Satisfiable): Automatic"
+auto
+End.
+
+End.

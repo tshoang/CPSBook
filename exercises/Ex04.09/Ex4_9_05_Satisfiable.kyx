@@ -1,0 +1,60 @@
+Theorem "CPSBook/Ex04.09/05 (Satisfiable)"
+Description "Ex4.9 (5): x > 0 -> [{x := x + 1;}*] x > 1 is satisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables
+  Real x;
+End.
+
+Problem
+  (x > 1 | x <= 0) /* Satisfiable when x > 1 initially */
+  <->
+  ((x > 0)
+  ->
+  [{x := x + 1;}* @invariant(x > 1)] x > 1)
+End.
+
+Tactic "CPSBook/Ex04.09/05 (Satisfiable): Interactive"
+equivR('R=="x>1|x<=0<->x>0->[{x:=x+1;}*]x>1"); <(
+  "(x>1|x<=0)&(x>0->[{x:=x+1;}*]x>1)":
+    implyR('R=="x>0->[{x:=x+1;}*]x>1");
+    orL('L=="x>1|x<=0"); <(
+      "x>1":
+        loop("x>1", 'R=="[{x:=x+1;}*]x>1"); <(
+          "Init":
+            id,
+          "Post":
+            id,
+          "Step":
+            assignb('R=="[x:=x+1;]x>1");
+            QE
+        ),
+      "x<=0":
+        smartQE
+    ),
+  "!(x>1|x<=0)&!(x>0->[{x:=x+1;}*]x>1)":
+    orR('R=="x>1|x<=0");
+    implyL('L=="x>0->[{x:=x+1;}*]x>1"); <(
+      "x>0":
+        QE,
+      "[{x:=x+1;}*]x>1":
+        iterateb('L=="[{x:=x+1;}*]x>1");
+        andL('L=="x>1&[x:=x+1;][{x:=x+1;}*]x>1");
+        id
+    )
+)
+End.
+
+/*
+ * This is the most automatic that we can do (required to apply iterateb manually)
+ */
+Tactic "CPSBook/Ex04.09/05 (Satisfiable): Automatic"
+auto;
+iterateb('L=="[{x:=x+1;}*]x>1");
+auto
+End.
+End.

@@ -1,0 +1,33 @@
+Theorem "CPSBook/Ex04.09/06 (Valid)"
+Description "Ex4.9 (6): [{x := x*x + 1; {x' = 1}}] x > 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables /* program variables may change their value over time */
+  Real x;
+End.
+
+Problem
+    [{x := x*x + 1; {x' = 1}}] x > 0
+End.
+
+Tactic "CPSBook/Ex04.09/06 (Valid): Interactive"
+composeb('R=="[x:=x*x+1;{x'=1}]x>0");
+assignb('R=="[x:=x*x+1;][{x'=1}]x>0");
+dIRule('R=="[{x'=1}]x>0"); <(
+  "dI Init":
+    QE,
+  "dI Step":
+    Dassignb('R=="[x':=1;]x'>=0");
+    QE
+)
+End.
+
+Tactic "CPSBook/Ex04.09/06 (Valid): Automatic"
+auto
+End.
+
+End.

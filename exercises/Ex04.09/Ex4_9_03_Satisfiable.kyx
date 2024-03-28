@@ -1,0 +1,33 @@
+Theorem "CPSBook/exercises/Ex04.09/03 (Satisfiable)"
+Description "Ex4.9 (3): x > 0 -> [{x'=-1}] x >= 0 is satisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables 
+  Real x;
+End.
+
+Problem
+    (x <= 0) /* Satisfiable exactly when x <= 0 initially */
+    <->
+    (x > 0 -> [{x'=-1}] x >= 0)
+End.
+
+Tactic "CPSBook/Ex04.09/03 (Satisfiable): Interactive"
+equivR('R=="x<=0<->x>0->[{x'=-1}]x>=0"); <(
+  "x<=0&(x>0->[{x'=-1}]x>=0)":
+    implyR('R=="x>0->[{x'=-1}]x>=0");
+    smartQE,
+  "!x<=0&!(x>0->[{x'=-1}]x>=0)":
+    solve('L=="x>0->#[{x'=-1}]x>=0#");
+    smartQE
+)End.
+
+Tactic "CPSBook/Ex04.09/03 (Satisfiable): Automatic"
+auto
+End.
+
+End.

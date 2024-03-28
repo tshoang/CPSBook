@@ -1,0 +1,45 @@
+Theorem "CPSBook/Ex04.09/10 (Valid)"
+Description "Ex4.9 (10): x >= 0 & v >= 0 -> [{x' = v};{v'=2}] x >= 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables
+  Real x, v;
+End.
+
+Problem
+    x >= 0 & v >= 0 -> [{x' = v};{v'=2}] x >= 0
+End.
+
+Tactic "CPSBook/Ex04.09/10 (Valid): Interactive"
+implyR('R=="x>=0&v>=0->[{x'=v}{v'=2}]x>=0");
+andL('L=="x>=0&v>=0");
+composeb('R=="[{x'=v}{v'=2}]x>=0");
+MR("x>=0", 'R=="[{x'=v}][{v'=2}]x>=0"); <(
+  "Use Q->P":
+    dIRule('R=="[{x'=v}]x>=0"); <(
+      "dI Init":
+        id,
+      "dI Step":
+        Dassignb('R=="[x':=v;]x'>=0");
+        id
+    ),
+  "Show [a]Q":
+    dIRule('R=="[{v'=2}]x>=0"); <(
+      "dI Init":
+        id,
+      "dI Step":
+        Dassignb('R=="[v':=2;]0>=0");
+        QE
+    )
+)
+End.
+
+Tactic "CPSBook/Ex04.09/10 (Valid): Automatic"
+auto
+End.
+
+End.

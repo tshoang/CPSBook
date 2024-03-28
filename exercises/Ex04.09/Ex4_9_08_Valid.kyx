@@ -1,0 +1,47 @@
+Theorem "CPSBook/Ex04.09/08 (Valid)"
+Description "Ex4.9 (8): [{x := x + 1; {x' = -1}}*;?x > 0; {x' = 2}] x > 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables /* program variables may change their value over time */
+  Real x;
+End.
+
+Problem
+    [{x := x + 1; {x' = -1}}*;?x > 0; {x' = 2}] x > 0
+End.
+
+Tactic "CPSBook/Ex04.09/08 (Valid): Interactive"
+composeb('R=="[{x:=x+1;{x'=-1}}*?x>0;{x'=2}]x>0");
+composeb('R=="[{x:=x+1;{x'=-1}}*]#[?x>0;{x'=2}]x>0#");
+testb('R=="[{x:=x+1;{x'=-1}}*]#[?x>0;][{x'=2}]x>0#");
+dIRule('R=="[{x:=x+1;{x'=-1}}*](x>0->#[{x'=2}]x>0#)");
+trueImply('R=="[{x:=x+1;{x'=-1}}*](x>0->#(true->x>0&[x':=2;]x'>=0)#)");
+Dassignb('R=="[{x:=x+1;{x'=-1}}*](x>0->x>0&#[x':=2;]x'>=0#)");
+GV('R=="[{x:=x+1;{x'=-1}}*](x>0->x>0&2>=0)");
+allR('R=="\forall x (x>0->x>0&2>=0)");
+implyR('R=="x>0->x>0&2>=0");
+andR('R=="x>0&2>=0"); <(
+  "x>0":
+    id,
+  "2>=0":
+    QE
+)
+End.
+
+/*
+ * Automatic tactic fails for this, so some manual steps required before it works.
+ */
+Tactic "CPSBook/Ex04.09/08 (Valid): Automatic"
+composeb('R=="[{x:=x+1;{x'=-1}}*?x>0;{x'=2}]x>0");
+composeb('R=="[{x:=x+1;{x'=-1}}*]#[?x>0;{x'=2}]x>0#");
+testb('R=="[{x:=x+1;{x'=-1}}*]#[?x>0;][{x'=2}]x>0#");
+dIRule('R=="[{x:=x+1;{x'=-1}}*](x>0->#[{x'=2}]x>0#)");
+Dassignb('R=="[{x:=x+1;{x'=-1}}*](x>0->true->x>0&#[x':=2;]x'>=0#)");
+auto
+End.
+
+End.
