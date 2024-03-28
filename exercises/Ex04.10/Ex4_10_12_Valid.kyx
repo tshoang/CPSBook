@@ -1,0 +1,33 @@
+Theorem "CPSBook/Ex04.10/12 (Valid)"
+Description "Ex4.10 (12): \forall x (x >= 0 -> \exists d [{x' = d}] x >= 0) is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+Problem
+    \forall x (x >= 0 -> \exists d [{x' = d}] x >= 0)
+End.
+
+/*
+ * Note the instantiation existsR
+ */
+Tactic "CPSBook/Ex04.10/12 (Valid): Interactive"
+allR('R=="\forall x (x>=0->\exists d [{x'=d}]x>=0)");
+implyR('R=="x>=0->\exists d [{x'=d}]x>=0");
+existsR("1", 'R=="\exists d [{x'=d}]x>=0");
+dIRule('R=="[{x'=1}]x>=0"); <(
+  "dI Init":
+    id,
+  "dI Step":
+    Dassignb('R=="[x':=1;]x'>=0");
+    QE
+)
+End.
+
+Tactic "CPSBook/Ex04.10/12 (Valid): Automatic"
+auto
+End.
+
+End.

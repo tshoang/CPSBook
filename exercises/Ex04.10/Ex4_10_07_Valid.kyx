@@ -1,0 +1,37 @@
+Theorem "CPSBook/Ex04.10/07 (Valid)"
+Description "Ex4.10 (7): <{x' = 2}>[{x'=-1}]<{x'=5}> x > 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables
+  Real x;
+End.
+
+Problem
+    <{x' = 2}>[{x'=-1}]<{x'=5}> x > 0
+End.
+
+/*
+ * Avoid solving the first two differential equations.
+ */
+Tactic "CPSBook/Ex04.10/07 (Valid): Interactive"
+diamondd('R=="<{x'=2}>[{x'=-1}]<{x'=5}>x>0");
+MR("false", 'R=="!#[{x'=2}](![{x'=-1}]<{x'=5}>x>0)#"); <(
+  "Use Q->P":
+    solve('R=="!#[{x'=2}]false#");
+    notAll('R=="!\forall t_ (t_>=0->false)");
+    notImply('R=="\exists t_ #!(t_>=0->false)#");
+    QE,
+  "Show [a]Q":
+    notL('L=="![{x'=-1}]<{x'=5}>x>0");
+    GV('R=="[{x'=-1}]<{x'=5}>x>0");
+    allR('R=="\forall x <{x'=5}>x>0");
+    solve('R=="<{x'=5}>x>0");
+    QE
+)
+End.
+
+End.

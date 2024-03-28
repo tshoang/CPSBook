@@ -1,0 +1,24 @@
+Theorem "CPSBook/Ex04.10/08 (Valid)"
+Description "Ex4.10 (8): \forall x <{x' = -1}> x < 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+Problem
+    \forall x <{x' = -1}> x < 0
+End.
+
+Tactic "CPSBook/Ex04.10/08 (Valid): Interactive"
+allR('R=="\forall x <{x'=-1}>x < 0");
+solve('R=="<{x'=-1}>x < 0");
+QE
+End.
+
+Tactic "CPSBook/Ex04.10/08 (Valid): Auto"
+auto
+End.
+
+End.

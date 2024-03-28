@@ -1,0 +1,28 @@
+Theorem "CPSBook/Ex04.10/09 (Unsatisfiable)"
+Description "Ex4.10 (9): \forall x [{x' = 1}] x >= 0 is unsatisfiable".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+Problem
+    !(\forall x [{x' = 1}] x >= 0)
+End.
+
+/*
+ * Note the instantiation existsR for x to any negative number (here -1)
+ */
+Tactic "CPSBook/Ex04.10/09 (Unsatisfiable): Automatic"
+notAll('R=="!\forall x [{x'=1}]x>=0");
+existsR("-1", 'R=="\exists x (![{x'=1}]x>=0)");
+notR('R=="![{x'=1}]x>=0");
+solve('L=="[{x'=1}]x>=0");
+QE
+End.
+
+Tactic "CPSBook/Ex04.10/09 (Unsatisfiable): Automatic"
+auto
+End.
+
+End.

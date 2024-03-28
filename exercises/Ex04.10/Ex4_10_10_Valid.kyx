@@ -1,0 +1,31 @@
+Theorem "CPSBook/Ex04.10/10 (Valid)"
+Description "Ex4.10 (10): \exists x <{x' = -1}> x < 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+Problem
+    \exists x <{x' = -1}> x < 0
+End.
+
+/*
+ * Note the instantiation existsR
+ */
+Tactic "CPSBook/Ex04.10/10 (Valid): Interactive"
+existsR("-1", 'R=="\exists x <{x'=-1}>x < 0");
+solve('R=="<{x'=-1}>x < 0");
+QE
+End.
+
+/*
+ * Almost automatic
+ */
+Tactic "CPSBook/Ex04.10/10 (Valid): Automatic"
+auto;
+existsR("-1", 'R=="\exists x <{x'=-1}>x < 0");
+auto
+End.
+
+End.

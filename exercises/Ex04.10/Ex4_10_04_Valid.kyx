@@ -1,0 +1,27 @@
+Theorem "CPSBook/Ex04.10/04 (Valid)"
+Description "Ex4.10 (4): x > 0 -> <{x' = 1}> x > 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables
+  Real x;
+End.
+
+Problem
+    (x > 0 -> <{x' = 1}> x > 0)
+End.
+
+Tactic "CPSBook/Ex04.10/04 (Valid): Interactive"
+implyR('R=="x>0-><{x'=1}>x>0");
+solve('R=="<{x'=1}>x>0");
+QE
+End.
+
+Tactic "CPSBook/Ex04.10/04 (Valid): Automatic"
+auto
+End.
+
+End.

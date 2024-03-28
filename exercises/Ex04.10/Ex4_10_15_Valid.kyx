@@ -1,0 +1,52 @@
+Theorem "CPSBook/Ex04.10/15 (Valid)"
+Description "Ex4.10 (15): [{x' = 2}] x >= 0 -> [{x' = 1}] x >= 0 is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+ProgramVariables
+    Real x;
+End.
+
+Problem
+    [{x' = 2}] x >= 0 -> [{x' = 1}] x >= 0
+End.
+
+/*
+ * Note the instantiation existsR and cut
+ */
+Tactic "CPSBook/Ex04.10/15 (Valid): Interactive"
+implyR('R=="[{x'=2}]x>=0->[{x'=1}]x>=0");
+dIRule('R=="[{x'=1}]x>=0"); <(
+  "dI Init":
+    boxd('L=="[{x'=2}]x>=0");
+    notL('L=="!<{x'=2}>(!x>=0)");
+    notGreaterEqual('R=="<{x'=2}>#!x>=0#");
+    solve('R=="<{x'=2}>x < 0");
+    cut("!x>=0"); <(
+      "Use":
+        notGreaterEqual('L=="!x>=0");
+        existsR("-x/4", 'R=="\exists t_ (t_>=0&2*t_+x < 0)");
+        andR('R=="-x/4>=0&2*(-x/4)+x < 0"); <(
+          "-x/4>=0":
+            QE,
+          "2*(-x/4)+x < 0":
+            QE
+        ),
+      "Show":
+        notR('R=="!x>=0");
+        id
+    ),
+  "dI Step":
+    Dassignb('R=="[x':=1;]x'>=0");
+    QE using "true :: 1>=0 :: nil"
+)
+End.
+
+Tactic "CPSBook/Ex04.10/15 (Valid): Automatic"
+auto
+End.
+
+End.
