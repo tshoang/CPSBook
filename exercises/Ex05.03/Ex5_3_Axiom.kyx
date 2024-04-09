@@ -1,0 +1,50 @@
+Theorem "CPSBook/Ex05.03/Axiom"
+Description "Ex5.3: [x := e]P <-> <x := e>P is sound".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+/*
+ * Encoding for some generic predicate P and expression E.
+ */
+Definitions
+  Bool P(Real x);
+  Real E(Real x);
+End.
+
+ProgramVariables
+  Real x;
+End.
+
+/*
+ * This is sound because assignment is deterministic.
+ */
+Problem
+  [x := E(x);] P(x) <-> <x := E(x);> P(x)
+End.
+
+/*
+ * Beside the logical rules (from Chapter 6), the proof uses the rules for 
+ * assignments (*assignb*) and diamond (*diamondd*)
+ */
+Tactic "CPSBook/Ex05.03/Axiom: Interactive"
+diamondd('R=="[x:=E(x);]P(x)<->#<x:=E(x);>P(x)#");
+assignb('R=="[x:=E(x);]P(x)<->!#[x:=E(x);](!P(x))#");
+assignb('R=="#[x:=E(x);]P(x)#<->!!P(E(x))");
+doubleNegation('R=="P(E(x))<->#!!P(E(x))#");
+equivR('R=="P(E(x))<->P(E(x))"); <(
+  "P(E(x))&P(E(x))":
+    id,
+  "!P(E(x))&!P(E(x))":
+    id
+)
+End.
+
+Tactic "CPSBook/Ex05.03/Axiom: Automatic"
+auto
+End.
+
+End.
