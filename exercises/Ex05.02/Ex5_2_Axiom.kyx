@@ -1,0 +1,44 @@
+Theorem "CPSBook/Ex05.02/Axiom"
+Description "Ex5.2: Q & P -> [?Q]P is sound".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+/*
+ * Encoding for some generic predicate P & Q
+ */
+Definitions
+  Bool P(Real x);
+  Bool Q(Real x);
+End.
+
+ProgramVariables
+  Real x;
+End.
+
+/*
+ * Indeed the Q(x) on the LHS of the implication is not necessary.
+ */
+Problem
+  Q(x) & P(x) -> [?Q(x);]P(x)
+End.
+
+/*
+ * Outside logical rules (from Chapter 6), the proof uses the rule for test (*testb*)
+ */
+Tactic "CPSBook/Ex05.02/Axiom: Interactive"
+implyR('R=="Q(x)&P(x)->[?Q(x);]P(x)");
+andL('L=="Q(x)&P(x)");
+testb('R=="[?Q(x);]P(x)");
+implyR('R=="Q(x)->P(x)");
+id
+End.
+
+Tactic "CPSBook/Ex05.02/Axiom: Automatic"
+auto
+End.
+
+End.
