@@ -1,0 +1,44 @@
+Theorem "CPSBook/Ex05.04/Valid"
+Description "Ex5.4: x >= 0 -> ([v := 1; {v := 2; ++ {x' = v}}] x >= 0) is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+ProgramVariables
+  Real x;
+  Real v;
+End.
+
+Problem
+  x >= 0 ->
+  ([v := 1; {v := 2; ++ {x' = v}}] x >= 0)
+End.
+
+/*
+ * Beside the logical rules (from Chapter 6), the proof uses the rules for
+ * sequential composition (*composeb*), nondeterministic choice (*choiceb*),
+ * assignment (*assignb*), and differential equation solution (*solve*).
+ */
+Tactic "CPSBook/Ex05.04/Valid: Interactive"
+implyR('R=="x>=0->[v:=1;{v:=2;++{x'=v}}]x>=0");
+composeb('R=="[v:=1;{v:=2;++{x'=v}}]x>=0");
+choiceb('R=="[v:=1;]#[v:=2;++{x'=v}]x>=0#");
+assignb('R=="[v:=1;]([v:=2;]x>=0&[{x'=v}]x>=0)");
+andR('R=="[v:=2;]x>=0&[{x'=1}]x>=0"); <(
+  "[v:=2;]x>=0":
+    assignb('R=="[v:=2;]x>=0");
+    id,
+  "[{x'=1}]x>=0":
+    solve('R=="[{x'=1}]x>=0");
+    QE
+)
+End.
+
+Tactic "CPSBook/Ex05.04/Valid: Automatic"
+auto
+End.
+
+End.
