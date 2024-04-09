@@ -1,0 +1,54 @@
+Theorem "CPSBook/Ex05.09/1 - Valid"
+Description "Ex5.9 (1): [A*]P <-> P & [A*]P is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+/*
+ * Encoding for some generic predicates P, Q, E, and expression D, and program A.
+ */
+Definitions
+  Bool P(Real x);
+  Bool Q(Real x);
+  Real D(Real x);
+  Bool E(Real x);
+  HP   A ::= {?Q(x);x:=*; {x'=D(x) & E(x)}};
+End.
+
+ProgramVariables
+  Real x;
+End.
+
+Problem
+  [{A;}*] P <-> P & [{A;}*]P
+End.
+
+/*
+ * We carry out the prove without expanding the definition of A. This is to make
+ * sure that the shape of the program does not matter.
+ * However, this axiom is not that useful. While it help to unfold P (i.e., zero
+ * iteration), it does not unfold one iteration (as in constrast to the standard
+ * *iterateb* rule.)
+ *
+ * Beside the logical rules, the proof uses the rule for loop (*iterateb*)
+ */
+Tactic "CPSBook/Ex05.09/1 - Valid: Interactive"
+equivR('R=="[{A{|^@|};}*]P()<->P()&[{A{|^@|};}*]P()"); <(
+  "[{A{|^@|};}*]P()&P()&[{A{|^@|};}*]P()":
+    andR('R=="P()&[{A{|^@|};}*]P()"); <(
+      "P()":
+        iterateb('L=="[{A{|^@|};}*]P()");
+        andL('L=="P()&[A{|^@|};][{A{|^@|};}*]P()");
+        id,
+      "[{A{|^@|};}*]P()":
+        id
+    ),
+  "![{A{|^@|};}*]P()&!(P()&[{A{|^@|};}*]P())":
+    andL('L=="P()&[{A{|^@|};}*]P()");
+    id
+)
+End.
+End.

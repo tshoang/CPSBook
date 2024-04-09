@@ -1,0 +1,63 @@
+Theorem "CPSBook/Ex05.09/2 - Valid"
+Description "Ex5.9 (1): [A*]P <-> [A*](P & [A][A*]P) is valid".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+/*
+ * Encoding for some generic predicates P, Q, E, and expression D, and program A.
+ */
+Definitions
+  Bool P(Real x);
+  Bool Q(Real x);
+  Real D(Real x);
+  Bool E(Real x);
+  HP   A ::= {?Q(x);x:=*; {x'=D(x) & E(x)}};
+End.
+
+ProgramVariables
+  Real x;
+End.
+
+Problem
+  [{A;}*] P(x) <-> [{A;}*](P(x) & [A;][{A;}*]P(x))
+End.
+
+/*
+ * We carry out the prove without expanding the definition of A. This is to make
+ * sure that the shape of the program does not matter.
+ * However, this axiom is not that useful in my opinion.
+ *
+ * Beside the logical rules, the proof uses the rules for loop (*iterateb*). However
+ * the proof also use the extra rules for hybrid programmes (*boxAnd* and *loop*).
+ */
+Tactic ""
+boxAnd('R=="[{A{|^@|};}*]P(x)<->#[{A{|^@|};}*](P(x)&[A{|^@|};][{A{|^@|};}*]P(x))#");
+equivR('R=="[{A{|^@|};}*]P(x)<->[{A{|^@|};}*]P(x)&[{A{|^@|};}*][A{|^@|};][{A{|^@|};}*]P(x)"); <(
+  "[{A{|^@|};}*]P(x)&[{A{|^@|};}*]P(x)&[{A{|^@|};}*][A{|^@|};][{A{|^@|};}*]P(x)":
+    andR('R=="[{A{|^@|};}*]P(x)&[{A{|^@|};}*][A{|^@|};][{A{|^@|};}*]P(x)"); <(
+      "[{A{|^@|};}*]P(x)":
+        id,
+      "[{A{|^@|};}*][A{|^@|};][{A{|^@|};}*]P(x)":
+        loop("[{A{|^@|};}*]P(x)", 'R=="[{A{|^@|};}*][A{|^@|};][{A{|^@|};}*]P(x)"); <(
+          "Init":
+            id,
+          "Post":
+            iterateb('L=="[{A{|^@|};}*]P(x)");
+            andL('L=="P(x)&[A{|^@|};][{A{|^@|};}*]P(x)");
+            id,
+          "Step":
+            iterateb('L=="[{A{|^@|};}*]P(x)");
+            andL('L=="P(x)&[A{|^@|};][{A{|^@|};}*]P(x)");
+            id
+        )
+    ),
+  "![{A{|^@|};}*]P(x)&!([{A{|^@|};}*]P(x)&[{A{|^@|};}*][A{|^@|};][{A{|^@|};}*]P(x))":
+    andL('L=="[{A{|^@|};}*]P(x)&[{A{|^@|};}*][A{|^@|};][{A{|^@|};}*]P(x)");
+    id
+)
+End.
+End.
