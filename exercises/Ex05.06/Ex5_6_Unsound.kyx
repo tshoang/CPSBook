@@ -1,0 +1,115 @@
+Theorem "CPSBook/Ex05.06/Unsound"
+Description "Ex5.6: [{x' = f(x) & q(x)}]p(x) <-> \forall t  (t >= 0 -> \forall s (0 <= s & s <= t -> (q(y(s)) -> [x := y(t)]p(x)))) is unsound".
+/*
+ * Copyright (c) 2024 University of Southampton.
+ * Licensed under MIT license.
+ * 
+ * @author Son Hoang -- Initial model
+ */
+
+/*
+ * Encoding for some generic predicates P, Q, E, and expression D, and program A.
+ */
+Definitions
+  Bool p(Real x);
+  Bool q(Real x);
+  Real f(Real x);
+  Real y(Real y);
+  HP   P ::= {x'=f(x) & q(x)};
+End.
+
+ProgramVariables
+  Real x;
+End.
+
+/*
+ * We cannot encode the generic solution for differential equation, so we
+ * implicitly apply the rule *solve* immediately. The original rules should be
+ *   [{x' = f(x) & q(x)}]p(x)
+ * <->
+ *   \forall t  (t >= 0 ->
+ *     \forall s (0 <= s & s <= t -> (q(y(s)) -> [x := y(t)]p(x)))
+ *   )
+ */
+Problem
+    \forall t (t >= 0 ->
+        \forall s (0 <= s & s <= t -> q(y(s)))
+            -> [{x := y(t);}]p(x)
+    )
+  <-> 
+    \forall t (t >= 0 ->
+        \forall s (0 <= s & s <= t -> q(y(s))
+            -> [{x := y(t);}]p(x)
+        )
+    )
+End.
+
+/*
+ * The proof stucks at *todo* (unprovable). The right-hand side is stronger than
+ * than the left-hand side.
+ */
+Tactic "CPSBook/Ex05.06/Unsound: Interactive"
+equivR('R=="\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x))<->\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x)))"); <(
+  "\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x))&\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x)))":
+    allR('R=="\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x)))");
+    allL('L=="\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x))");
+    implyR('R=="t>=0->\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x))");
+    implyL('L=="t>=0->\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x)"); <(
+      "t>=0":
+        id,
+      "\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x)":
+        allR('R=="\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x))");
+        implyR('R=="0<=s&s<=t->q(y(s))->[x:=y(t);]p(x)");
+        implyR('R=="q(y(s))->[x:=y(t);]p(x)");
+        implyL('L=="\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x)"); <(
+          "\forall s (0<=s&s<=t->q(y(s)))":
+            allR('R=="\forall s (0<=s&s<=t->q(y(s)))");
+            implyR('R=="0<=s&s<=t->q(y(s))");
+            andL('L=="0<=s&s<=t");
+            todo,
+          "[x:=y(t);]p(x)":
+            id
+        )
+    ),
+  "!\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x))&!\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x)))":
+    allR('R=="\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x))");
+    implyR('R=="t>=0->\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x)");
+    allL('L=="\forall t (t>=0->\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x)))");
+    implyL('L=="t>=0->\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x))"); <(
+      "t>=0":
+        id,
+      "\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x))":
+        implyR('R=="\forall s (0<=s&s<=t->q(y(s)))->[x:=y(t);]p(x)");
+        allL("0", 'L=="\forall s (0<=s&s<=t->q(y(s))->[x:=y(t);]p(x))");
+        implyL('L=="0<=0&0<=t->q(y(0))->[x:=y(t);]p(x)"); <(
+          "0<=0&0<=t":
+            andR('R=="0<=0&0<=t"); <(
+              "0<=0":
+                QE("Z3") using "0<=0",
+              "0<=t":
+                QE("Z3") using "t>=0 :: 0<=t :: nil"
+            ),
+          "q(y(0))->[x:=y(t);]p(x)":
+            implyL('L=="q(y(0))->[x:=y(t);]p(x)"); <(
+              "q(y(0))":
+                allL("0", 'L=="\forall s (0<=s&s<=t->q(y(s)))");
+                implyL('L=="0<=0&0<=t->q(y(0))"); <(
+                  "0<=0&0<=t":
+                    andR('R=="0<=0&0<=t"); <(
+                      "0<=0":
+                        QE("Z3") using "0<=0",
+                      "0<=t":
+                        QE("Z3") using "t>=0 :: 0<=t :: nil"
+                    ),
+                  "q(y(0))":
+                    id
+                ),
+              "[x:=y(t);]p(x)":
+                id
+            )
+        )
+    )
+)
+End.
+
+End.
